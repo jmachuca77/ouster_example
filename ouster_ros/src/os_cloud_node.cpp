@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
 
     auto tf_prefix = nh.param("tf_prefix", std::string{});
     std::string tf_postfix = nh.param("tf_postfix", std::string{});
+    auto lidar_type = nh.param("lidar_type", 0);
     if (!tf_prefix.empty() && tf_prefix.back() != '/') tf_prefix.append("/");
     auto sensor_frame = tf_prefix + "os_sensor" + tf_postfix;
     auto imu_frame = tf_prefix + "os_imu" + tf_postfix;
@@ -67,7 +68,7 @@ int main(int argc, char** argv) {
                     return h.timestamp != std::chrono::nanoseconds{0};
                 });
             if (h != ls.headers.end()) {
-                scan_to_cloud(xyz_lut, h->timestamp, ls, cloud);
+                scan_to_cloud(xyz_lut, h->timestamp, ls, cloud, lidar_type);
                 lidar_pub.publish(ouster_ros::cloud_to_cloud_msg(
                     cloud, h->timestamp, sensor_frame));
             }

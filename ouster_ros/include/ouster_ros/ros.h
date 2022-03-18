@@ -62,10 +62,11 @@ sensor_msgs::Imu packet_to_imu_msg(const PacketMsg& pm,
  * @param scan_ts scan start used to caluclate relative timestamps for points
  * @param ls input lidar data
  * @param cloud output pcl pointcloud to populate
+ * @param lidarType type of lidar beam spacing, simulates an os0-32 using an 0s0-128
  */
 void scan_to_cloud(const ouster::XYZLut& xyz_lut,
                    ouster::LidarScan::ts_t scan_ts, const ouster::LidarScan& ls,
-                   ouster_ros::Cloud& cloud);
+                   ouster_ros::Cloud& cloud, int8_t lidarType);
 
 /**
  * Serialize a PCL point cloud to a ROS message
